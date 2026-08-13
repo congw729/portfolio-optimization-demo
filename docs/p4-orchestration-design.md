@@ -62,7 +62,7 @@ team-leader（拆任务、验收，不写代码）
 | 输入 | `data/params.json`（方案 A）、`data/params_stocks.json`（基线）、`data/returns_assetclass.csv`、`data/returns_stocks.csv`、**`data/features.json`（供优化前相关矩阵校验与 60/40 基准对比参数，评审 I-2）** |
 | 输出 | `output/portfolios.csv`（方案 A 主输出）、`output/portfolios_stocks.csv`、`output/frontier.csv`、`output/frontier_stocks.csv` |
 | 对接脚本 | `python scripts/optimizer.py --params data/params.json --returns data/returns_assetclass.csv --tag assetclass` 及 `--tag stocks` 对应命令 |
-| 关键校验 | 权重和=1（±1e-6）、GMV 波动率 ≤ 任一单资产、前沿凸性/弯曲验证（脚本已打印 P3 里程碑摘要）；优化前先读 features.json 校验相关矩阵含负相关（GLD-DBC 实测 -0.12）；主口径为数值禁做空，解析解仅对照（评审 I-2 口径） |
+| 关键校验 | 权重和=1（±1e-6）、GMV 波动率 ≤ 任一单资产、前沿凸性/弯曲验证（脚本已打印 P3 里程碑摘要）；优化前先读 features.json 校验相关矩阵含负相关（EEM-DBC 实测 -0.12）；主口径为数值禁做空，解析解仅对照（评审 I-2 口径） |
 
 ### 1.4 viz-agent（可视化）
 
@@ -207,7 +207,7 @@ T1 ──► T2 ──► T3 ──► T4 ──┐
 | 2. 拆任务 | 1 min | leader 讲解任务划分逻辑（数据/特征/优化/可视化/汇报） | 「leader 只拆任务不写代码，分工即架构」 |
 | 3. T1 data-collector | 3 min | 认领任务，运行 fetch_data.py（读缓存或 --refresh），展示数据质量报告 | 「缓存优先、断网可演示」「数据清洗对齐（EEM 跨市场日历）」 |
 | 4. M1 衔接 | 0.5 min | 展示 send_message 消息（路径+摘要） | 「agent 间只传路径不搬数据」 |
-| 5. T2 feature-engineer | 1.5 min | 生成 features.json，展示相关矩阵含负相关（DBC-GLD -0.12） | 「协方差结构多样性是方案 A 的核心」 |
+| 5. T2 feature-engineer | 1.5 min | 生成 features.json，展示相关矩阵含负相关（DBC-EEM -0.12） | 「协方差结构多样性是方案 A 的核心」 |
 | 6. T3 optimizer-engine | 2.5 min | 运行 optimizer.py，展示 GMV/切线/前沿，P3 里程碑摘要 | 「禁做空主口径 vs 解析对照（I-2）」「分散化降风险」 |
 | 7. M3/M4 衔接 | 0.5 min | 展示消息流转 | 「依赖解锁、接力推进」 |
 | 8. T4 viz-agent | 2 min | 运行 viz.py，展示 5 张图（重点热力图 + 双前沿对比） | 「资产类别分散 vs 个股分散」「负相关资产价值」 |

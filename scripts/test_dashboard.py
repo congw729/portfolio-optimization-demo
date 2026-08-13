@@ -59,8 +59,8 @@ def test_data_snapshot() -> None:
     feats = json.load(open(data / "features.json", encoding="utf-8"))
     check("features.json 含 corr", "corr" in feats)
     check("features.json 含 benchmark_6040", "benchmark_6040" in feats)
-    check("features.json corr 含 GLD-DBC 负相关",
-          feats["corr"]["GLD"]["DBC"] < 0, f"ρ={feats['corr']['GLD']['DBC']:.3f}")
+    check("features.json corr 含 EEM-DBC 负相关",
+          feats["corr"]["EEM"]["DBC"] < 0, f"ρ={feats['corr']['EEM']['DBC']:.3f}")
 
     # extensions_summary.csv 含风险平价/BL/蒙特卡洛行
     ext = pd.read_csv(out / "extensions_summary.csv")

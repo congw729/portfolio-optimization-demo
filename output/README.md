@@ -47,7 +47,7 @@ streamlit run app/Home.py
 | `frontier_scatter.png` | **图① 有效前沿散点图**（+蒙特卡洛 3000 灰点云 + CML + GMV/切线标注 + 单资产点），Demo 主图 |
 | `weights_bar.png` | **图② 权重条形图**（GMV/切线/中目标收益组合，按资产类别着色 equity-us/bond/gold/equity-em/commodity） |
 | `drawdown_curve.png` | **图③ 回撤曲线**（切线组合 vs 基准 SPY：nav/dd/max_dd，S-1 口径） |
-| `correlation_heatmap.png` | **图④ 相关性热力图**（升级主图，方框标注负相关 GLD-DBC / 强正相关 SPY-EEM、SPY-TLT） |
+| `correlation_heatmap.png` | **图④ 相关性热力图**（升级主图，方框标注负相关 EEM-DBC / 强正相关 SPY-EEM、SPY-TLT） |
 | `frontier_compare.png` | **图⑤ 双前沿对比图**（方案 A vs 基线个股，含各自 GMV 标注） |
 | `dashboard.py` | （已退役，由 app/ 多页应用取代）单页 Streamlit 精简版保留 |
 | `app/Home.py` | **P5b 交互式展示网页入口**（多页 Streamlit + plotly，界面英文）：`streamlit run app/Home.py`，侧边栏 6 页：Overview / Efficient Frontier（γ 交互）/ Weights / NAV & Drawdown / Correlation / Extensions，只读消费 data/ 与 output/ 产物 |

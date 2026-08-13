@@ -38,7 +38,7 @@ This web app assembles the **P2 data pipeline → P3 portfolio optimization → 
 - **Efficient Frontier**: drag risk-aversion γ to move the optimal portfolio along the frontier
 - **Weights**: GMV / Tangency / custom-γ portfolio weights by asset class
 - **NAV & Drawdown**: portfolio vs benchmarks NAV curve and drawdown depth
-- **Correlation**: hoverable heatmap with negative-correlation highlights (GLD-DBC)
+- **Correlation**: hoverable heatmap with negative-correlation highlights (EEM-DBC)
 - **Extensions**: Risk Parity / Black-Litterman / Monte Carlo vs Mean-Variance
 - **Agent Workflow**: the 5-agent cluster DAG, per-role inputs → outputs → scripts, and the M1–M6 message flow
 

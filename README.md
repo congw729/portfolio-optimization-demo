@@ -6,7 +6,7 @@ A complete course project demo for **Modern Portfolio Theory (Markowitz Mean-Var
 
 ## Highlights
 
-- **Cross-asset portfolio (Portfolio A)**: SPY / IWM / TLT / GLD / EEM / DBC — equity, long-duration bonds, gold, emerging markets, and commodities; correlation structure contains negative (GLD-DBC) and near-zero pairs, ideal for teaching diversification.
+- **Cross-asset portfolio (Portfolio A)**: SPY / IWM / TLT / GLD / EEM / DBC — equity, long-duration bonds, gold, emerging markets, and commodities; correlation structure contains negative (EEM-DBC) and near-zero pairs, ideal for teaching diversification.
 - **Baseline for comparison**: 6 mega-cap stocks (AAPL / MSFT / GOOGL / AMZN / JPM / XOM) for a two-frontier comparison (asset-class diversification vs stock-level diversification).
 - **Core algorithms**: GMV (minimum variance), tangency (max Sharpe) portfolio, and a 60-point efficient frontier scan — numeric optimization (no short selling, primary) with analytic closed-form solutions as teaching contrast.
 - **Optional extensions**: Risk Parity, Black-Litterman, and Monte Carlo simulation.

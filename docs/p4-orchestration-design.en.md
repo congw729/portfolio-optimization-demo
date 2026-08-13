@@ -64,7 +64,7 @@ team-leader (task decomposition, acceptance; writes no code)
 | Input | `data/params.json` (Scheme A), `data/params_stocks.json` (baseline), `data/returns_assetclass.csv`, `data/returns_stocks.csv`, **`data/features.json` (for pre-optimization correlation-matrix check and 60/40 benchmark comparison parameters, review I-2)** |
 | Output | `output/portfolios.csv` (Scheme A primary output), `output/portfolios_stocks.csv`, `output/frontier.csv`, `output/frontier_stocks.csv` |
 | Scripts | `python scripts/optimizer.py --params data/params.json --returns data/returns_assetclass.csv --tag assetclass` and the corresponding `--tag stocks` command |
-| Key checks | Weights sum to 1 (±1e-6); GMV volatility ≤ any single asset; frontier convexity/curvature check (the script prints the P3 milestone summary); read features.json before optimizing to verify the correlation matrix contains a negative correlation (GLD-DBC measured at -0.12); primary convention is numerical no-shorting, analytical solution is reference only (review I-2 convention) |
+| Key checks | Weights sum to 1 (±1e-6); GMV volatility ≤ any single asset; frontier convexity/curvature check (the script prints the P3 milestone summary); read features.json before optimizing to verify the correlation matrix contains a negative correlation (EEM-DBC measured at -0.12); primary convention is numerical no-shorting, analytical solution is reference only (review I-2 convention) |
 
 ### 1.4 viz-agent (Visualization)
 
@@ -209,7 +209,7 @@ Rationale:
 | 2. Task decomposition | 1 min | Leader explains the division of labor (data/features/optimization/visualization/reporting) | "The leader only decomposes tasks, never writes code — division of labor IS the architecture" |
 | 3. T1 data-collector | 3 min | Claim the task, run fetch_data.py (cache or --refresh), show the data quality report | "Cache first, offline-capable demo" / "Data cleaning & alignment (EEM cross-market calendar)" |
 | 4. M1 handoff | 0.5 min | Show the send_message (path + summary) | "Agents pass only paths, never move data" |
-| 5. T2 feature-engineer | 1.5 min | Generate features.json; show the correlation matrix contains a negative correlation (DBC-GLD -0.12) | "Covariance-structure diversity is the core of Scheme A" |
+| 5. T2 feature-engineer | 1.5 min | Generate features.json; show the correlation matrix contains a negative correlation (DBC-EEM -0.12) | "Covariance-structure diversity is the core of Scheme A" |
 | 6. T3 optimizer-engine | 2.5 min | Run optimizer.py; show GMV/tangency/frontier and the P3 milestone summary | "No-shorting primary vs. analytical reference (I-2)" / "Diversification reduces risk" |
 | 7. M3/M4 handoffs | 0.5 min | Show message flow | "Dependencies unlock; relay progression" |
 | 8. T4 viz-agent | 2 min | Run viz.py; show the 5 charts (heatmap + dual-frontier comparison highlighted) | "Asset-class diversification vs. single-stock diversification" / "Value of negatively correlated assets" |

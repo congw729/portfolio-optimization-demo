@@ -18,7 +18,7 @@
 | Core algorithm | Markowitz mean-variance optimization: efficient frontier, global minimum variance (GMV) portfolio, maximum Sharpe (tangency) portfolio |
 | Optional extensions | Risk parity, Black-Litterman, Monte Carlo simulation (bonus items) |
 | Demo market | US stocks / US-listed ETFs (yfinance free, risk-free rate readily available); A-shares as an alternative (akshare) |
-| Recommended asset pool | **Scheme A (recommended, confirmed)**: SPY / IWM / TLT / GLD / EEM / DBC — a cross-asset-class portfolio (US large-cap + small-cap + long-term bonds + gold + emerging markets + broad commodities); the covariance structure contains positive correlation (equity–equity), negative correlation (**GLD-DBC measured at -0.12**) and near-zero correlation (DBC vs. most others), directly mapping to the course's "asset allocation" theme |
+| Recommended asset pool | **Scheme A (recommended, confirmed)**: SPY / IWM / TLT / GLD / EEM / DBC — a cross-asset-class portfolio (US large-cap + small-cap + long-term bonds + gold + emerging markets + broad commodities); the covariance structure contains positive correlation (equity–equity), negative correlation (**EEM-DBC measured at -0.12**) and near-zero correlation (DBC vs. most others), directly mapping to the course's "asset allocation" theme |
 | Benchmark portfolio (kept) | The baseline of 6 individual stocks (AAPL/MSFT/GOOGL/AMZN/JPM/XOM) is retained for comparison, demonstrating the difference between "asset-class diversification vs. single-stock diversification" via dual efficient frontiers |
 | Demo format | Cluster mode runs the full pipeline + produces charts (efficient frontier, weight bar chart, drawdown curve, correlation heatmap) + optional Streamlit interactive page |
 | Estimated timeline | 5 phases, about **2 weeks (8–12 working days)** (see §6.2) |
@@ -137,7 +137,7 @@
 ### 2.1 Asset Pool & Historical Price Data Acquisition
 
 - **What it is**: Select **6 US-listed ETFs (Scheme A)** and fetch 3–5 years of daily close prices; keep the 6-stock baseline for comparison.
-- **Why it is needed**: Mean-variance optimization requires "expected return per asset + covariance between assets", all derived from historical prices; Scheme A's cross-asset composition (equity/bond/commodity/international) yields a covariance structure with positive correlation (equity–equity), negative correlation (GLD-DBC measured at -0.12), and near-zero correlation (DBC vs. most others) — maximum teaching information.
+- **Why it is needed**: Mean-variance optimization requires "expected return per asset + covariance between assets", all derived from historical prices; Scheme A's cross-asset composition (equity/bond/commodity/international) yields a covariance structure with positive correlation (equity–equity), negative correlation (EEM-DBC measured at -0.12), and near-zero correlation (DBC vs. most others) — maximum teaching information.
 - **How to obtain/configure**:
 
   ```python
@@ -365,7 +365,7 @@ optimizer-engine ──send_message(results ready)──► viz-agent ──► 
 | ① Efficient frontier scatter | Frontier curve + Monte Carlo gray cloud + CML + GMV/tangency annotations | matplotlib | Demo centerpiece; must be the most polished |
 | ② Weight bar chart | Weight allocations of the max-Sharpe / GMV / a target-return portfolio, **colored by asset class** (equity/bond/commodity/international) | matplotlib/barh | Shows diversification and class allocation |
 | ③ Drawdown curve | Cumulative NAV and max drawdown of the portfolio vs. benchmark (**SPY**) | matplotlib/area | Shows risk control; benchmark and portfolio share the same instrument type (ETF) for a fairer comparison |
-| ④ Correlation heatmap | Asset return correlation matrix — **promoted to the centerpiece chart**: Scheme A contains a negative correlation pair (**GLD-DBC measured at -0.12, commodity-gold**) and a strong positive one (SPY-TLT measured at +0.68; stocks and bonds moved together over the past 5 years) — the single most information-dense chart | seaborn/heatmap | Explains the covariance input; the negative correlation (GLD-DBC) is the key differentiator of Scheme A vs. the stock pool |
+| ④ Correlation heatmap | Asset return correlation matrix — **promoted to the centerpiece chart**: Scheme A contains a negative correlation pair (**EEM-DBC measured at -0.12, emerging-market equities-commodities**) and a strong positive one (SPY-TLT measured at +0.68; stocks and bonds moved together over the past 5 years) — the single most information-dense chart | seaborn/heatmap | Explains the covariance input; the negative correlation (EEM-DBC) is the key differentiator of Scheme A vs. the stock pool |
 | ⑤ Dual-frontier comparison | **Baseline 6 stocks vs. Scheme A** overlaid on two efficient frontiers | matplotlib | Shows the "asset-class vs. single-stock diversification" difference; teaching enhancement |
 
 - **Chinese font**: ⚠️ to verify — on macOS use `plt.rcParams["font.sans-serif"] = ["PingFang SC"]` (or Arial Unicode MS) to avoid tofu boxes.
@@ -401,7 +401,7 @@ optimizer-engine ──send_message(results ready)──► viz-agent ──► 
 | # | Acceptance item | Pass criteria |
 |---|---|---|
 | A1 | Pipeline runs end-to-end | One command drives data-to-report fully automatically with no manual intervention |
-| A2 | Correct results | Weights sum to 1 (±1e-6); GMV volatility ≤ volatility of any single asset (diversification works); frontier curve monotonic and convex; **new assertion: Scheme A correlation matrix contains at least one negative correlation (measured: GLD-DBC = -0.12)** (validates covariance-structure diversity); weight validation follows the chosen convention (primary: no-shorting) |
+| A2 | Correct results | Weights sum to 1 (±1e-6); GMV volatility ≤ volatility of any single asset (diversification works); frontier curve monotonic and convex; **new assertion: Scheme A correlation matrix contains at least one negative correlation (measured: EEM-DBC = -0.12)** (validates covariance-structure diversity); weight validation follows the chosen convention (primary: no-shorting) |
 | A3 | Real data | Uses real historical quotes (not random numbers); cache reproducible offline |
 | A4 | Cluster collaboration visible | The demo clearly shows ≥4 agents handing off via the task board and messages |
 | A5 | Charts complete | 5 required charts + metrics table complete, no Chinese tofu boxes |
@@ -414,7 +414,7 @@ optimizer-engine ──send_message(results ready)──► viz-agent ──► 
 |---|---|---|---|
 | P1 Environment setup | Create virtual environment, install dependencies (incl. scikit-learn), verify jiuwenswarm team config & 5-role registration mechanism, test yfinance connectivity | Environment readiness report | 1–2 days |
 | P2 Data pipeline | Scheme A data collection/cleaning/alignment (incl. EEM cross-market calendar & return-direction check)/caching + parameter scripts | `data/`, `params.json` | 1–2 days |
-| P3 Core algorithms | GMV/tangency/efficient frontier (no-shorting numerical primary + analytical reference), unit-test assertions; **new milestone check: measure frontier shape & correlation matrix with the §5 verification code, confirm Scheme A expectations (negative correlation GLD-DBC=-0.12, clear GMV/tangency separation)** | `output/portfolios.csv`, frontier.csv | 2–3 days |
+| P3 Core algorithms | GMV/tangency/efficient frontier (no-shorting numerical primary + analytical reference), unit-test assertions; **new milestone check: measure frontier shape & correlation matrix with the §5 verification code, confirm Scheme A expectations (negative correlation EEM-DBC=-0.12, clear GMV/tangency separation)** | `output/portfolios.csv`, frontier.csv | 2–3 days |
 | P4 Cluster orchestration | Split into 5 agents, define task dependencies & message flow, run the full chain | Cluster pipeline scripts | 2–3 days |
 | P5 Visualization & rehearsal | 5 charts + Streamlit + reporting report (incl. class weights & 60/40 comparison) + 2 full rehearsals | Charts, dashboard, report.md | 2–3 days |
 

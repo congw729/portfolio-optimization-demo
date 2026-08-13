@@ -4,7 +4,7 @@
 Data: data/features.json → corr (Portfolio A pre-computed); baseline derives corr from
       params_stocks.json sigma on the fly (lightweight); when features.json is missing,
       corr is computed from returns on the fly.
-Teaching point: Portfolio A contains a negative correlation (GLD-DBC = -0.12),
+Teaching point: Portfolio A contains a negative correlation (EEM-DBC = -0.12),
                 SPY-TLT measured +0.68 (stocks and bonds moved together over the last 5Y).
 """
 
@@ -52,7 +52,7 @@ if corr_df is None:
     corr = s / np.outer(dg, dg)
     corr_df = pd.DataFrame(corr, index=tickers, columns=tickers)
 
-# Negative-correlation pairs (GLD-DBC known -0.12; generic detection)
+# Negative-correlation pairs (EEM-DBC known -0.12; generic detection)
 neg_pairs = []
 n = len(tickers)
 for i in range(n):
@@ -112,6 +112,6 @@ st.markdown(
 )
 if pool_key == "Portfolio A (Cross-Asset ETFs)":
     st.caption("Convention: measured correlation matrix from data/features.json (P4b feature-engineer artifact). "
-               "GLD-DBC negative + SPY-TLT +0.68 are the v1.2 measured values; the single most informative chart.")
+               "EEM-DBC negative + SPY-TLT +0.68 are the v1.2 measured values; the single most informative chart.")
 else:
     st.caption("Convention: derived on the fly from data/params_stocks.json covariance (ρ_ij = Σ_ij/√(Σ_ii·Σ_jj)).")

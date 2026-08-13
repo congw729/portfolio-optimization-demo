@@ -36,7 +36,8 @@ OUT.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 # 全局样式（中文字体 + 统一美观配置）
 # ---------------------------------------------------------------------------
-plt.rcParams["font.sans-serif"] = ["PingFang SC", "Arial Unicode MS", "Heiti TC", "Hiragino Sans GB"]
+plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei", "PingFang SC",
+                                     "Arial Unicode MS", "Heiti TC", "Hiragino Sans GB"]
 plt.rcParams["axes.unicode_minus"] = False
 plt.rcParams["figure.dpi"] = 150
 plt.rcParams["savefig.dpi"] = 150
@@ -276,11 +277,10 @@ def fig_corr_heatmap(returns_df: pd.DataFrame, path: Path) -> None:
                 cbar_kws={"shrink": 0.8, "label": "相关系数"}, ax=ax)
     ax.set_title("方案 A 资产收益率相关矩阵 — 负相关与强正相关并存", fontsize=13)
 
-    # 标注关键相关性：负相关（GLD-DBC）与强正相关（SPY-EEM/SPY-TLT）
+    # 标注关键相关性：负相关（EEM-DBC）与强正相关（SPY-IWM）
     n = len(corr)
     annots = []
-    pairs = [("GLD", "DBC", "负相关"), ("SPY", "EEM", "强正相关"),
-             ("SPY", "TLT", "强正相关")]
+    pairs = [("EEM", "DBC", "负相关"), ("SPY", "IWM", "强正相关")]
     for a, b, tag in pairs:
         if a in corr.index and b in corr.columns:
             v = corr.loc[a, b]

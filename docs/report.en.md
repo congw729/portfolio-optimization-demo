@@ -52,7 +52,7 @@ Tangency Sharpe 0.999 beats 60/40 benchmark (0.500) → mean-variance optimizati
 ## 6. Risk Attribution and Pedagogical Conclusions
 
 1. **Diversification works**: GMV volatility is below every single asset (Portfolio A assets range 15.7%–22.5%, GMV only 10.1%) — low/negative correlation across assets is the source of portfolio risk reduction;
-2. **Value of negative correlation**: GLD-DBC correlation is -0.12 (gold vs commodities); negatively correlated assets hedge single-class risk within the portfolio;
+2. **Value of negative correlation**: EEM-DBC correlation is -0.12 (emerging-market equities vs commodities); negatively correlated assets hedge single-class risk within the portfolio;
 3. **60/40 benchmark**: simple stock-bond allocation Sharpe 0.500 vs optimized tangency 0.999 — the gap highlights the incremental value of mean-variance optimization
 
 ---

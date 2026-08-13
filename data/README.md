@@ -56,4 +56,4 @@ python scripts/fetch_data.py --name stocks --tickers AAPL,MSFT,GOOGL,AMZN,JPM,XO
 - 无 NaN、日期连续（最大间隔 4 天）✓
 - 年化收益：DBC **-7.19%**（负收益，商品展期损耗，备好解释话术）；其余资产均为正（+9.4% ~ +27.8%）
 - rf = **3.707%**（^IRX，断言 0<rf<0.15 通过）；基准 SPY 最新收盘 772.49
-- 相关矩阵特征：负相关 **DBC-GLD(-0.12)**、近零相关 DBC 与多数资产（|r|<0.15）、强正相关 SPY-EEM(0.85)/SPY-TLT(0.68)
+- 相关矩阵特征：负相关 **DBC-EEM(-0.12)**、近零相关 DBC 与多数资产（|r|<0.15）、强正相关 SPY-EEM(0.85)/SPY-TLT(0.68)
