@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 数据缓存（现场演示数据，不纳入版本管理）
+data/
+*.csv
+*.parquet
+*.pkl
+
+# macOS
+.DS_Store
+
+# 日志与临时文件
+*.log
+*.tmp
+*.swp
+
+# 环境配置（敏感信息不入库）
+.env
+.env.*
