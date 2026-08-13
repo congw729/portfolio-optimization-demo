@@ -12,6 +12,55 @@ A complete course project demo for **Modern Portfolio Theory (Markowitz Mean-Var
 - **Optional extensions**: Risk Parity, Black-Litterman, and Monte Carlo simulation.
 - **5-agent cluster orchestration**: leader breaks down tasks, teammates claim tasks on the shared board, hand off via `send_message`, and share artifacts through a common workspace (`.team/`).
 
+## 5-Agent 协同架构（Cluster Orchestration）
+
+demo 的核心是「**5 个 agent + 1 个 leader**」的集群协作流水线，运行在 jiuwenswarm team 模式（任务看板 + `send_message` + 共享 `.team/` 工作空间）上，完成「数据采集 → 特征计算 → 组合优化 → 可视化 → 汇报」全链路。leader 只负责拆任务与验收、**不写代码**；五个 teammate 认领任务、按 `blocked_by` 依赖接力，agent 之间只传「**产物路径 + 一句话摘要**」，不搬运数据正文。
+
+### 角色职责表
+
+| 角色 | 任务 | 职责 | 输入 → 输出 | 对接脚本 |
+|---|---|---|---|---|
+| leader | — | 拆任务、验收（不写代码） | 设计 → 5 个任务 + 验收结论 | 无（仅编排） |
+| data-collector | T1 | 拉取 + 清洗 + 缓存（缓存优先，`--refresh` 才联网） | 联网/缓存 → `data/params.json`、`data/returns_*.csv` | `scripts/fetch_data.py` |
+| feature-engineer | T2 | 派生特征（corr / 类别汇总 / 60-40 基准） | `data/params.json` + returns → `data/features.json` | `scripts/features.py` |
+| optimizer-engine | T3 | GMV / 切线 / 有效前沿（禁做空主口径 + 解析对照） | params + returns + features → `output/portfolios.csv`、`frontier.csv` | `scripts/optimizer.py` |
+| viz-agent | T4 | 5 张图 + dashboard | frontier/portfolios → `output/*.png` | `scripts/viz.py` |
+| reporter | T5 | 汇总指标与结论 | 全部产物 → `output/report.md` | `scripts/report.py` |
+
+### 依赖链（DAG）
+
+```
+leader（拆任务、验收，不写代码）
+   │ 创建 T1–T5 任务（blocked_by 表达依赖）
+   ▼
+data-collector ──► feature-engineer ──► optimizer-engine ──► viz-agent ──► reporter
+                                                  └───────────────────────────►
+                              （reporter 还依赖 optimizer-engine，即 T3 → T5）
+```
+
+| 任务 | blocked_by | 说明 |
+|---|---|---|
+| T1 data-collector | 无 | 最先执行（联网或读缓存） |
+| T2 feature-engineer | T1 | 需要 params.json / returns 就绪 |
+| T3 optimizer-engine | T2（严格） | 消费 `data/features.json`（优化前校验负相关、读 60/40 基准参数） |
+| T4 viz-agent | T3 | 需要 frontier / portfolios 就绪 |
+| T5 reporter | T3 + T4 | 需要优化结果与图表就绪 |
+
+### 消息流（agent 只传「路径 + 摘要」）
+
+| 衔接 | 发送方 → 接收方 | 消息示意 |
+|---|---|---|
+| M1 | data-collector → feature-engineer | `data/params.json 已就绪（含 asset_class），请开始特征计算` |
+| M2 | feature-engineer → optimizer-engine | `data/features.json 已就绪（含 corr/60-40 基准），请开始优化` |
+| M3 | optimizer-engine → viz-agent | `output/frontier.csv + portfolios.csv 已就绪，请出图` |
+| M4 | optimizer-engine → reporter | `output/portfolios.csv 已就绪（GMV/切线），frontier_stocks.csv 为基线` |
+| M5 | viz-agent → reporter | `output/*.png 五张图已生成（含双前沿对比），可开始正式汇总` |
+| M6 | reporter → team-leader | `output/report.md 已就绪（夏普/回撤/类别权重/60-40），demo 可交付` |
+
+> 教学点：每个衔接点都体现「agent 只传路径 + 摘要、不搬数据」——集群模式下上下文解耦与文件共享协作的工程价值。
+
+> 详细设计见 `docs/p4-orchestration-design.md`（§1 角色定义、§2 DAG、§3 消息流）。
+
 ## Directory Structure
 
 ```
