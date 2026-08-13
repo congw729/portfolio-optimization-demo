@@ -26,7 +26,8 @@ python scripts/viz.py [--data-dir DIR] [--output-dir DIR]
 
 # P4b 派生特征与最终报告（feature-engineer / reporter 角色脚本）
 python scripts/features.py
-python scripts/report.py
+python scripts/report.py                    # 中文 report.md（默认）
+python scripts/report.py --lang en          # 英文 report.en.md（数据与中文一致）
 
 # 可选：Streamlit 交互页（不重算，读产物）
 streamlit run output/dashboard.py
