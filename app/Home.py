@@ -47,6 +47,24 @@ This web app assembles the **P2 data pipeline → P3 portfolio optimization → 
 )
 
 # ---------------------------------------------------------------------------
+# Asset pools (what the "Asset Pool" selectbox options mean)
+# ---------------------------------------------------------------------------
+st.subheader("📦 Asset Pools")
+st.markdown(
+    """
+Every page has an **Asset Pool** selector with two options:
+
+- **Portfolio A (Cross-Asset ETFs)** — `SPY` / `IWM` / `TLT` / `GLD` / `EEM` / `DBC`
+  US equities, long-duration bonds, gold, emerging markets, and commodities.
+  Its low/negative correlations (e.g. EEM-DBC = -0.12) teach **asset-class diversification**.
+
+- **Baseline (6 Stocks)** — `AAPL` / `MSFT` / `GOOGL` / `AMZN` / `JPM` / `XOM`
+  Six mega-cap stocks, used as a control to show that **asset-class diversification
+  reduces risk further than stock-level diversification** (see the two-frontier comparison).
+"""
+)
+
+# ---------------------------------------------------------------------------
 # 5-Agent Collaboration (cluster orchestration overview)
 # ---------------------------------------------------------------------------
 st.subheader("🤝 5-Agent Collaboration")
