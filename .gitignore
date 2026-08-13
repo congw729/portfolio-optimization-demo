@@ -16,9 +16,10 @@ data/*
 *.parquet
 *.pkl
 
-# 优化输出（CSV 不入库，保留说明文档）
+# 优化输出（CSV/PNG 不入库，保留说明与 dashboard 脚本）
 output/*
 !output/README.md
+!output/dashboard.py
 
 # macOS
 .DS_Store
