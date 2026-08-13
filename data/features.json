@@ -1,0 +1,175 @@
+{
+  "tickers": [
+    "SPY",
+    "IWM",
+    "TLT",
+    "GLD",
+    "EEM",
+    "DBC"
+  ],
+  "asset_class": {
+    "SPY": "equity-us",
+    "IWM": "equity-us",
+    "TLT": "bond",
+    "GLD": "gold",
+    "EEM": "equity-em",
+    "DBC": "commodity"
+  },
+  "corr": {
+    "SPY": {
+      "SPY": 1.0,
+      "IWM": 0.849838,
+      "TLT": 0.166245,
+      "GLD": 0.653014,
+      "EEM": 0.170319,
+      "DBC": 0.11476
+    },
+    "IWM": {
+      "SPY": 0.849838,
+      "IWM": 1.0,
+      "TLT": 0.1479,
+      "GLD": 0.676674,
+      "EEM": 0.174778,
+      "DBC": 0.085757
+    },
+    "TLT": {
+      "SPY": 0.166245,
+      "IWM": 0.1479,
+      "TLT": 1.0,
+      "GLD": 0.349209,
+      "EEM": 0.317598,
+      "DBC": 0.212431
+    },
+    "GLD": {
+      "SPY": 0.653014,
+      "IWM": 0.676674,
+      "TLT": 0.349209,
+      "GLD": 1.0,
+      "EEM": 0.179918,
+      "DBC": 0.095968
+    },
+    "EEM": {
+      "SPY": 0.170319,
+      "IWM": 0.174778,
+      "TLT": 0.317598,
+      "GLD": 0.179918,
+      "EEM": 1.0,
+      "DBC": -0.119963
+    },
+    "DBC": {
+      "SPY": 0.11476,
+      "IWM": 0.085757,
+      "TLT": 0.212431,
+      "GLD": 0.095968,
+      "EEM": -0.119963,
+      "DBC": 1.0
+    }
+  },
+  "asset_class_summary": {
+    "equity-us": {
+      "assets": [
+        "SPY",
+        "IWM"
+      ],
+      "mu_avg": 0.119932,
+      "vol_avg": 0.198584,
+      "mu_each": {
+        "SPY": 0.100953,
+        "IWM": 0.138911
+      },
+      "vol_each": {
+        "SPY": 0.225017,
+        "IWM": 0.172151
+      }
+    },
+    "bond": {
+      "assets": [
+        "TLT"
+      ],
+      "mu_avg": 0.196216,
+      "vol_avg": 0.185546,
+      "mu_each": {
+        "TLT": 0.196216
+      },
+      "vol_each": {
+        "TLT": 0.185546
+      }
+    },
+    "gold": {
+      "assets": [
+        "GLD"
+      ],
+      "mu_avg": 0.093799,
+      "vol_avg": 0.198962,
+      "mu_each": {
+        "GLD": 0.093799
+      },
+      "vol_each": {
+        "GLD": 0.198962
+      }
+    },
+    "equity-em": {
+      "assets": [
+        "EEM"
+      ],
+      "mu_avg": 0.138685,
+      "vol_avg": 0.193676,
+      "mu_each": {
+        "EEM": 0.138685
+      },
+      "vol_each": {
+        "EEM": 0.193676
+      }
+    },
+    "commodity": {
+      "assets": [
+        "DBC"
+      ],
+      "mu_avg": -0.071912,
+      "vol_avg": 0.157214,
+      "mu_each": {
+        "DBC": -0.071912
+      },
+      "vol_each": {
+        "DBC": 0.157214
+      }
+    }
+  },
+  "benchmark_6040": {
+    "weights": {
+      "SPY": 0.6,
+      "TLT": 0.4
+    },
+    "ret": 0.139058,
+    "vol": 0.164523,
+    "sharpe": 0.620755,
+    "note": "60% 股票(SPY) + 40% 债券(TLT) 再平衡基准，与组合同 rf 口径"
+  },
+  "rf": 0.03693000078201294,
+  "benchmark": {
+    "ticker": "SPY",
+    "latest_close": 776.802001953125,
+    "last_5d": [
+      773.26,
+      773.03,
+      770.56,
+      772.49,
+      776.802
+    ]
+  },
+  "checks": {
+    "has_negative_corr": true,
+    "n_neg_pairs": 1,
+    "neg_pairs": [
+      [
+        "EEM",
+        "DBC",
+        -0.12
+      ]
+    ]
+  },
+  "source": {
+    "params": "data\\params.json",
+    "returns": "data\\returns_assetclass.csv"
+  }
+}
