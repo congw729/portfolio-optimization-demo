@@ -32,3 +32,6 @@ output/*
 # 环境配置（敏感信息不入库）
 .env
 .env.*
+
+# JiuwenSwarm runtime file operation logs
+.agent_history/
