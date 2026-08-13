@@ -340,15 +340,22 @@ def fig_frontier_compare(frontier_a: pd.DataFrame,
 
 
 def main(argv=None) -> int:
+    global DATA, OUT
     p = argparse.ArgumentParser(description="P5 可视化：5 张必备图")
     p.add_argument("--only", type=int, default=0, help="只生成指定图（1-5）")
+    p.add_argument("--data-dir", default=str(DATA), help="数据目录，默认 data/")
+    p.add_argument("--output-dir", default=str(OUT), help="输出目录，默认 output/")
     args = p.parse_args(argv)
 
-    params = load_params()
-    portfolios = load_portfolios()
+    DATA = Path(args.data_dir)
+    OUT = Path(args.output_dir)
+    OUT.mkdir(parents=True, exist_ok=True)
+
+    params = load_params(DATA / "params.json")
+    portfolios = load_portfolios(OUT / "portfolios.csv")
     frontier_a = load_frontier(OUT / "frontier.csv")
     frontier_s = load_frontier(OUT / "frontier_stocks.csv")
-    returns_a = load_returns()
+    returns_a = load_returns(DATA / "returns_assetclass.csv")
 
     tasks = {
         1: ("frontier_scatter.png",

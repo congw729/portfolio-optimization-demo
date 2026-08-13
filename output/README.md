@@ -1,11 +1,15 @@
 # 优化输出说明（output/）
 
-本目录存放 **P3 优化器 + P3x 扩展算法 + P5 可视化产物**（组合指标、有效前沿 CSV 与 5 张图表 PNG），由 `scripts/optimizer.py` / `scripts/extensions.py` / `scripts/viz.py` 生成。
+本目录存放 **P3 优化器 + P3x 扩展算法 + P4b 流水线 + P5 可视化产物**（组合指标、有效前沿 CSV、最终报告与 5 张图表 PNG），由 `scripts/optimizer.py` / `scripts/extensions.py` / `scripts/viz.py` / `scripts/report.py` 生成。
 CSV/PNG 数据文件**不纳入 git 版本管理**（可随时用脚本重新生成），本说明文件入库。
 
 ## 生成方式
 
 ```bash
+# 全链路一键跑通（兜底脚本，缓存优先，断网可跑）
+bash scripts/demo_pipeline.sh [--data-dir DIR] [--output-dir DIR] [--refresh]
+
+# 分步执行：
 # 方案 A（主输出：portfolios.csv + frontier.csv）
 python scripts/optimizer.py --params data/params.json \
     --returns data/returns_assetclass.csv --tag assetclass
@@ -17,8 +21,12 @@ python scripts/optimizer.py --params data/params_stocks.json \
 # P3x 可选扩展（风险平价 / Black-Litterman / 蒙特卡洛）
 python scripts/extensions.py
 
-# P5 可视化（5 张 PNG）
-python scripts/viz.py
+# P5 可视化（5 张 PNG；支持 --data-dir/--output-dir 指向共享目录）
+python scripts/viz.py [--data-dir DIR] [--output-dir DIR]
+
+# P4b 派生特征与最终报告（feature-engineer / reporter 角色脚本）
+python scripts/features.py
+python scripts/report.py
 
 # 可选：Streamlit 交互页（不重算，读产物）
 streamlit run output/dashboard.py
@@ -41,6 +49,9 @@ streamlit run output/dashboard.py
 | `correlation_heatmap.png` | **图④ 相关性热力图**（升级主图，方框标注负相关 GLD-DBC / 强正相关 SPY-EEM、SPY-TLT） |
 | `frontier_compare.png` | **图⑤ 双前沿对比图**（方案 A vs 基线个股，含各自 GMV 标注） |
 | `dashboard.py` | 可选 Streamlit 交互页：资产池选择/风险厌恶 γ slider/禁做空 checkbox，读产物不重算 |
+| `report.md` | **P4b 最终演示报告**（reporter 角色产物）：组合夏普 vs SPY/60-40 基准、最大回撤、切线权重（含按类别汇总）、双前沿结论、风险归因 |
+
+> 说明：`data/features.json`（feature-engineer 产物：corr/类别汇总/60-40 基准参数）与 `output/report.md`（reporter 产物）均由 P4b 脚本生成，`scripts/demo_pipeline.sh` 可一键串起全链路。
 
 ## 口径说明（评审 I-2）
 
