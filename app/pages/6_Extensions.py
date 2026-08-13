@@ -52,7 +52,7 @@ if dim == "Return-Risk Scatter":
     show_mc = st.checkbox("Overlay Monte Carlo cloud", value=True, key="ex_mc")
 
 # Methods usable in charts (exclude the Monte Carlo summary row — no single weight)
-methods = ext[ext["combo"].str.contains("蒙特卡洛") == False].copy()  # noqa: E712
+methods = ext[ext["combo"].str.contains("Monte Carlo") == False].copy()  # noqa: E712
 
 # ---- ① Metrics table ----
 if dim == "Metrics table":
@@ -92,9 +92,9 @@ elif dim == "Return-Risk Scatter":
             hovertemplate="vol=%{x:.2%}<br>ret=%{y:.2%}<extra></extra>",
         ))
     # Algorithm points
-    labels = {"GMV_数值(禁做空)": "GMV", "切线_数值(禁做空)": "Tangency",
-              "风险平价": "Risk Parity", "BL_先验切线(均衡收益)": "BL Prior",
-              "BL_后验切线(叠加观点)": "BL Posterior"}
+    labels = {"GMV (no short)": "GMV", "Tangency (no short)": "Tangency",
+              "Risk Parity": "Risk Parity", "BL Prior": "BL Prior",
+              "BL Posterior": "BL Posterior"}
     colors_map = {"GMV": "#55A868", "Tangency": "#C44E52", "Risk Parity": "#8172B2",
                   "BL Prior": "#DD8452", "BL Posterior": "#4C72B0"}
     for _, row in methods.iterrows():
@@ -125,7 +125,7 @@ elif dim == "Return-Risk Scatter":
 
 # ---- ③ Risk contribution bars ----
 else:
-    rp = ext[ext["combo"] == "风险平价"]
+    rp = ext[ext["combo"] == "Risk Parity"]
     if rp.empty:
         st.warning("No Risk Parity row in extensions_summary.csv. Run scripts/extensions.py first.")
         st.stop()
@@ -148,8 +148,8 @@ else:
     # Weight comparison table
     st.subheader("Weight Comparison (Risk Parity vs Mean-Variance)")
     rows = []
-    for combo in ("GMV_数值(禁做空)", "切线_数值(禁做空)", "风险平价",
-                  "BL_后验切线(叠加观点)"):
+    for combo in ("GMV (no short)", "Tangency (no short)", "Risk Parity",
+                  "BL Posterior"):
         row = ext[ext["combo"] == combo]
         if row.empty:
             continue

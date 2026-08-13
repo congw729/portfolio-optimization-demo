@@ -37,7 +37,7 @@ tickers = d["tickers"]
 params = d["params"]
 asset_class = params.get("asset_class", {})
 
-combo_choices = ["GMV_数值(禁做空)", "切线_数值(禁做空)", "Custom γ (linked to Page 2)"]
+combo_choices = ["GMV (no short)", "Tangency (no short)", "Custom γ (linked to Page 2)"]
 combo = st.selectbox("Portfolio", combo_choices, key="wd_combo")
 
 mode = st.radio("Display Mode", ["Detail bars", "By-class summary"], horizontal=True, key="wd_mode")

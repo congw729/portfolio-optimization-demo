@@ -22,8 +22,8 @@ st.set_page_config(page_title="Agent Workflow", layout="wide")
 st.title("7️⃣ Agent Workflow — 5-Agent Collaboration DAG")
 
 st.caption(
-    "Cluster orchestration on jiuwenswarm team mode ｜ Source of truth: "
-    "`docs/p4-orchestration-design.md` ｜ Read-only consumption of `data/` & `output/` artifacts"
+    "Cluster orchestration on jiuwenswarm team mode | Source of truth: "
+    "`docs/p4-orchestration-design.md` | Read-only consumption of `data/` & `output/` artifacts"
 )
 
 # ---------------------------------------------------------------------------
@@ -45,7 +45,7 @@ ROLES = [
                    "baseline `data/params_stocks.json`, `data/returns_stocks.csv`, `data/closes_stocks.csv`",
         "script": "`python scripts/fetch_data.py --name assetclass --tickers SPY,IWM,TLT,GLD,EEM,DBC "
                   "--years 5 --rf --benchmark SPY --params-out data/params.json` "
-                  "｜ baseline: `--name stocks --tickers AAPL,MSFT,GOOGL,AMZN,JPM,XOM --years 5`",
+                  "| baseline: `--name stocks --tickers AAPL,MSFT,GOOGL,AMZN,JPM,XOM --years 5`",
         "check": "data-quality report all green: closes_NaN=0, returns_NaN=0, trading days ≥ 750, 0<rf<0.15",
     },
     {
@@ -72,7 +72,7 @@ ROLES = [
         "outputs": "`output/portfolios.csv` (Portfolio A primary), `output/portfolios_stocks.csv`, "
                    "`output/frontier.csv`, `output/frontier_stocks.csv`",
         "script": "`python scripts/optimizer.py --params data/params.json --returns data/returns_assetclass.csv "
-                  "--tag assetclass` ｜ same with `--tag stocks`",
+                  "--tag assetclass` | same with `--tag stocks`",
         "check": "weights sum to 1 (±1e-6); GMV vol ≤ any single asset; frontier convexity check; "
                  "correlation negative check before optimizing",
     },

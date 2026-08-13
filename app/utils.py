@@ -88,12 +88,13 @@ def load_features() -> dict | None:
 
 @st.cache_data(show_spinner=False)
 def load_report_lines() -> list[str]:
-    """Read key conclusion lines of output/report.md (cited by Overview page)."""
-    path = OUT / "report.md"
-    if not path.exists():
-        return []
-    text = path.read_text(encoding="utf-8")
-    return [ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith(">")]
+    """Read key conclusion lines of the English report (report.en.md), falling back to report.md."""
+    for name in ("report.en.md", "report.md"):
+        path = OUT / name
+        if path.exists():
+            text = path.read_text(encoding="utf-8")
+            return [ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith(">")]
+    return []
 
 
 # ---------------------------------------------------------------------------

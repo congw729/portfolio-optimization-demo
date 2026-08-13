@@ -104,8 +104,8 @@ st.plotly_chart(fig, width="stretch")
 
 # ---- Teaching annotations ----
 st.markdown("### 🔍 Teaching Highlights")
-neg_txt = "、".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in neg_pairs) or "none"
-pos_txt = "、".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in pos_pairs) or "none"
+neg_txt = ", ".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in neg_pairs) or "none"
+pos_txt = ", ".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in pos_pairs) or "none"
 st.markdown(
     f"- **Negative pairs (red box)**: {neg_txt} — negative correlation = extra diversification (hedging across assets)\n"
     f"- **Strong-positive pairs (blue box)**: {pos_txt} — stocks and bonds moved together over the last 5Y; positive correlation weakens diversification"

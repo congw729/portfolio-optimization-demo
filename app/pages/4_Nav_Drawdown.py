@@ -40,8 +40,8 @@ returns = d["returns"]
 
 # ---- Portfolio daily return series ----
 series = {}
-gmv_w = combo_weights(d["portfolios"], "GMV_数值(禁做空)")
-tan_w = combo_weights(d["portfolios"], "切线_数值(禁做空)")
+gmv_w = combo_weights(d["portfolios"], "GMV (no short)")
+tan_w = combo_weights(d["portfolios"], "Tangency (no short)")
 if gmv_w is not None:
     series["GMV (Min Variance)"] = returns @ gmv_w
 if tan_w is not None:

@@ -46,14 +46,14 @@ def test_data_snapshot() -> None:
 
     # portfolios.csv 含 GMV/切线行（方案 A）
     pf_a = pd.read_csv(out / "portfolios.csv")
-    check("portfolios.csv 含 GMV 行", "GMV_数值(禁做空)" in pf_a["combo"].values)
-    check("portfolios.csv 含切线行", "切线_数值(禁做空)" in pf_a["combo"].values)
+    check("portfolios.csv 含 GMV 行", "GMV (no short)" in pf_a["combo"].values)
+    check("portfolios.csv 含切线行", "Tangency (no short)" in pf_a["combo"].values)
 
     # portfolios_stocks.csv（基线）
     pf_s = pd.read_csv(out / "portfolios_stocks.csv")
     check("portfolios_stocks.csv 含 GMV/切线行",
-          "GMV_数值(禁做空)" in pf_s["combo"].values
-          and "切线_数值(禁做空)" in pf_s["combo"].values)
+          "GMV (no short)" in pf_s["combo"].values
+          and "Tangency (no short)" in pf_s["combo"].values)
 
     # features.json 有 corr 与 benchmark_6040
     feats = json.load(open(data / "features.json", encoding="utf-8"))
@@ -66,18 +66,18 @@ def test_data_snapshot() -> None:
     ext = pd.read_csv(out / "extensions_summary.csv")
     combos = set(ext["combo"].tolist())
     check("extensions_summary.csv 含风险平价",
-          any("风险平价" in c for c in combos))
+          any("Risk Parity" in c for c in combos))
     check("extensions_summary.csv 含 BL", any("BL" in c for c in combos))
     check("extensions_summary.csv 含蒙特卡洛",
-          any("蒙特卡洛" in c for c in combos))
+          any("Monte Carlo" in c for c in combos))
 
     # mc_points.csv 行数 ≥ 5000
     mc = pd.read_csv(out / "mc_points.csv")
     check("mc_points.csv 行数 ≥ 5000", len(mc) >= 5000, f"n={len(mc)}")
 
     # 关键数值抽查（W3：①页卡片与 portfolios.csv 一致）
-    gmv = pf_a[pf_a["combo"] == "GMV_数值(禁做空)"].iloc[0]
-    tan = pf_a[pf_a["combo"] == "切线_数值(禁做空)"].iloc[0]
+    gmv = pf_a[pf_a["combo"] == "GMV (no short)"].iloc[0]
+    tan = pf_a[pf_a["combo"] == "Tangency (no short)"].iloc[0]
     check("GMV ret ≈ 6.07%", abs(gmv["ret"] - 0.0607) < 0.001, f"ret={gmv['ret']:.4f}")
     check("切线 ret ≈ 16.82%", abs(tan["ret"] - 0.1682) < 0.001, f"ret={tan['ret']:.4f}")
     check("切线 sharpe ≈ 0.999", abs(tan["sharpe"] - 0.999) < 0.01, f"sharpe={tan['sharpe']:.4f}")
@@ -104,6 +104,7 @@ def test_pages_run() -> None:
         APP / "pages" / "4_Nav_Drawdown.py",
         APP / "pages" / "5_Correlation.py",
         APP / "pages" / "6_Extensions.py",
+        APP / "pages" / "7_Agent_Workflow.py",
     ]
     for p in pages:
         at = AppTest.from_file(str(p), default_timeout=30)

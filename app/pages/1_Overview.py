@@ -73,8 +73,8 @@ def b6040_metrics() -> dict:
     return m
 
 
-gmv = combo_metrics("GMV_数值(禁做空)")
-tan = combo_metrics("切线_数值(禁做空)")
+gmv = combo_metrics("GMV (no short)")
+tan = combo_metrics("Tangency (no short)")
 spy = single_asset_metrics("SPY") if "SPY" in tickers else {
     "ret": float("nan"), "vol": float("nan"),
     "sharpe": float("nan"), "max_dd": float("nan")}
@@ -102,12 +102,13 @@ for col, (title, m, color) in zip(cols, cards):
 
 st.divider()
 
-# Conclusion summary (citing key lines of report.md)
+# Conclusion summary (citing key lines of the English report)
 lines = load_report_lines()
 if lines:
-    st.subheader("📝 Conclusion Summary (output/report.md)")
+    st.subheader("📝 Conclusion Summary (output/report.en.md)")
     for ln in lines:
-        if any(k in ln for k in ("结论", "夏普", "回撤", "60/40", "分散化", "负相关")):
+        if any(k in ln for k in ("Conclusion", "Sharpe", "Drawdown", "60/40",
+                                 "Diversification", "negative correlation")):
             st.markdown(f"- {ln}")
 
-st.caption(f"Convention: numeric optimization, no shorting (primary) | rf = {rf:.2%} | data window see report.md")
+st.caption(f"Convention: numeric optimization, no shorting (primary) | rf = {rf:.2%} | data window see report.en.md")

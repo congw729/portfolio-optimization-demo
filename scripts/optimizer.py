@@ -207,10 +207,10 @@ def main(argv=None) -> int:
     w_tan_ana = tangency_analytic(mu, sigma, rf)
 
     combos = {
-        "GMV_数值(禁做空)": w_gmv_num,
-        "GMV_解析(允许做空对照)": w_gmv_ana,
-        "切线_数值(禁做空)": w_tan_num,
-        "切线_解析(允许做空对照)": w_tan_ana,
+        "GMV (no short)": w_gmv_num,
+        "GMV (analytic)": w_gmv_ana,
+        "Tangency (no short)": w_tan_num,
+        "Tangency (analytic)": w_tan_ana,
     }
 
     # 3) 组合指标表

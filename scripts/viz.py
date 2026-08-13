@@ -118,10 +118,10 @@ def fig_frontier_scatter(params: dict, frontier: pd.DataFrame,
     ax.scatter(frontier["vol"], frontier["ret"], color="#4C72B0", s=14, zorder=3)
 
     # GMV / 切线组合（数值禁做空主口径）
-    gmv_vol = get_combo_metric(portfolios, "GMV_数值(禁做空)", "vol")
-    gmv_ret = get_combo_metric(portfolios, "GMV_数值(禁做空)", "ret")
-    tan_vol = get_combo_metric(portfolios, "切线_数值(禁做空)", "vol")
-    tan_ret = get_combo_metric(portfolios, "切线_数值(禁做空)", "ret")
+    gmv_vol = get_combo_metric(portfolios, "GMV (no short)", "vol")
+    gmv_ret = get_combo_metric(portfolios, "GMV (no short)", "ret")
+    tan_vol = get_combo_metric(portfolios, "Tangency (no short)", "vol")
+    tan_ret = get_combo_metric(portfolios, "Tangency (no short)", "ret")
     ax.scatter([gmv_vol], [gmv_ret], marker="*", s=260, color="#55A868", zorder=5,
                edgecolor="white", linewidth=1.2, label="最小方差组合 GMV")
     ax.scatter([tan_vol], [tan_ret], marker="*", s=260, color="#C44E52", zorder=5,
@@ -176,8 +176,8 @@ def fig_weights_bar(params: dict, portfolios: pd.DataFrame,
 
     # 三个组合：GMV / 切线 / 中目标收益组合
     combos = [
-        ("GMV_数值(禁做空)", "最小方差组合 GMV"),
-        ("切线_数值(禁做空)", "最大夏普（切线）"),
+        ("GMV (no short)", "最小方差组合 GMV"),
+        ("Tangency (no short)", "最大夏普（切线）"),
     ]
     # 中目标收益组合：取前沿中间点
     mid = frontier.iloc[len(frontier) // 2]
@@ -228,7 +228,7 @@ def fig_drawdown(params: dict, portfolios: pd.DataFrame,
     tickers = params["tickers"]
     rf = params.get("rf", 0.0)
     # 切线组合（数值禁做空主口径）
-    w = get_combo_weights(portfolios, "切线_数值(禁做空)")
+    w = get_combo_weights(portfolios, "Tangency (no short)")
     r_port = returns_df[tickers] @ w
     r_bench = returns_df["SPY"]  # 基准 SPY（与组合同口径，同为方案 A 成员）
 

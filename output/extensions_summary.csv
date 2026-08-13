@@ -1,7 +1,7 @@
 pool,combo,note,ret,vol,sharpe,max_dd,w_SPY,w_IWM,w_TLT,w_GLD,w_EEM,w_DBC,rc_SPY,rc_IWM,rc_TLT,rc_GLD,rc_EEM,rc_DBC
-assetclass,GMV_数值(禁做空),均值-方差主结果：最小方差，分散化基线,0.060749,0.101254,0.235241,-0.197865,0.0,0.243574,0.110177,0.008373,0.239229,0.398647,,,,,,
-assetclass,切线_数值(禁做空),均值-方差主结果：最大夏普,0.168192,0.13125,1.000091,-0.170476,0.0,0.341083,0.511539,0.0,0.147378,0.0,,,,,,
-assetclass,风险平价,不依赖收益预测：各资产风险贡献 RC 相等（迭代收敛）,0.08382,0.110305,0.425094,-0.190258,0.11303,0.149468,0.162383,0.126901,0.190473,0.257744,0.018384,0.018384,0.018384,0.018384,0.018384,0.018384
-assetclass,BL_先验切线(均衡收益),BL 先验：逆优化 π=δΣw_mkt（等权假设）下的切线组合，无主观观点,0.054116,0.217632,0.078969,-0.311922,0.918716,0.0,0.0,0.081284,0.0,0.0,,,,,,
-assetclass,BL_后验切线(叠加观点),BL 后验：叠加『看好美股权益』『黄金低配』观点后的最大夏普组合,0.062958,0.22765,0.114334,-0.319117,1.0,0.0,0.0,0.0,0.0,0.0,,,,,,
-assetclass,蒙特卡洛模拟(6000样本),dirichlet 随机组合，低效比例(前沿右侧)=100.0%,0.099382,0.132054,,,,,,,,,,,,,,
+assetclass,GMV (no short),"Mean-variance primary: minimum variance, diversification baseline",0.060749,0.101254,0.234845,-0.197865,0.0,0.243574,0.110177,0.008373,0.239229,0.398647,,,,,,
+assetclass,Tangency (no short),Mean-variance primary: maximum Sharpe,0.168195,0.131253,0.999787,-0.170477,0.0,0.341053,0.511606,0.0,0.147341,0.0,,,,,,
+assetclass,Risk Parity,No return forecast: equalizes risk contributions (RC) across assets (iteratively converged),0.08382,0.110305,0.424731,-0.190258,0.11303,0.149468,0.162383,0.126901,0.190473,0.257744,0.018384,0.018384,0.018384,0.018384,0.018384,0.018384
+assetclass,BL Prior,"BL prior: tangency under equilibrium returns π=δΣw_mkt (equal-weight assumption), no subjective views",0.054129,0.217789,0.078786,-0.311978,0.920526,0.0,0.0,0.079474,0.0,0.0,,,,,,
+assetclass,BL Posterior,BL posterior: max-Sharpe portfolio after applying 'bullish US equity' and 'underweight gold' views,0.062958,0.22765,0.114159,-0.319117,1.0,0.0,0.0,0.0,0.0,0.0,,,,,,
+assetclass,Monte Carlo (6000 sims),dirichlet random portfolios; inefficiency ratio (right of frontier) = 100.0%,0.099382,0.132054,,,,,,,,,,,,,,

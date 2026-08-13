@@ -234,14 +234,16 @@ def main(argv=None) -> int:
     # ---- 汇总表 output/extensions_summary.csv ----
     rows = []
     for name, w, m, note in (
-        ("GMV_数值(禁做空)", w_gmv, m_gmv, "均值-方差主结果：最小方差，分散化基线"),
-        ("切线_数值(禁做空)", w_tan, m_tan, "均值-方差主结果：最大夏普"),
-        ("风险平价", w_rp, m_rp,
-         "不依赖收益预测：各资产风险贡献 RC 相等（迭代收敛）"),
-        ("BL_先验切线(均衡收益)", w_bl_prior, m_bl_prior,
-         "BL 先验：逆优化 π=δΣw_mkt（等权假设）下的切线组合，无主观观点"),
-        ("BL_后验切线(叠加观点)", w_bl, m_bl,
-         "BL 后验：叠加『看好美股权益』『黄金低配』观点后的最大夏普组合"),
+        ("GMV (no short)", w_gmv, m_gmv,
+         "Mean-variance primary: minimum variance, diversification baseline"),
+        ("Tangency (no short)", w_tan, m_tan,
+         "Mean-variance primary: maximum Sharpe"),
+        ("Risk Parity", w_rp, m_rp,
+         "No return forecast: equalizes risk contributions (RC) across assets (iteratively converged)"),
+        ("BL Prior", w_bl_prior, m_bl_prior,
+         "BL prior: tangency under equilibrium returns π=δΣw_mkt (equal-weight assumption), no subjective views"),
+        ("BL Posterior", w_bl, m_bl,
+         "BL posterior: max-Sharpe portfolio after applying 'bullish US equity' and 'underweight gold' views"),
     ):
         row = {"pool": "assetclass", "combo": name, "note": note}
         row["ret"] = round(m["ret"], 6)
@@ -250,15 +252,15 @@ def main(argv=None) -> int:
         row["max_dd"] = round(m["max_dd"], 6)
         for i, t in enumerate(tickers):
             row[f"w_{t}"] = round(float(w[i]), 6)
-        if name == "风险平价":
+        if name == "Risk Parity":
             for i, t in enumerate(tickers):
                 row[f"rc_{t}"] = round(float(rc_rp[i]), 6)
         rows.append(row)
-    # 蒙特卡洛统计行（无单一权重，用均值/样本数说明）
+    # Monte Carlo summary row (no single weight; mean / sample count)
     rows.append({
-        "pool": "assetclass", "combo": f"蒙特卡洛模拟({args.n_sim}样本)",
-        "note": f"dirichlet 随机组合，低效比例(前沿右侧)={mc_ineff:.1%}"
-                if np.isfinite(mc_ineff) else "dirichlet 随机组合",
+        "pool": "assetclass", "combo": f"Monte Carlo ({args.n_sim} sims)",
+        "note": f"dirichlet random portfolios; inefficiency ratio (right of frontier) = {mc_ineff:.1%}"
+                if np.isfinite(mc_ineff) else "dirichlet random portfolios",
         "ret": round(float(mc_ret.mean()), 6),
         "vol": round(float(mc_vol.mean()), 6),
         "sharpe": float("nan"), "max_dd": float("nan"),
@@ -279,8 +281,8 @@ def main(argv=None) -> int:
     mv_path = out_dir / "portfolios.csv"
     if mv_path.exists():
         mv = pd.read_csv(mv_path)
-        gmv_row = mv[mv["combo"] == "GMV_数值(禁做空)"].iloc[0]
-        tan_row = mv[mv["combo"] == "切线_数值(禁做空)"].iloc[0]
+        gmv_row = mv[mv["combo"] == "GMV (no short)"].iloc[0]
+        tan_row = mv[mv["combo"] == "Tangency (no short)"].iloc[0]
         print(f"  P3 GMV  : ret={gmv_row['ret']:+.2%}, vol={gmv_row['vol']:.2%}, "
               f"sharpe={gmv_row['sharpe']:.3f}")
         print(f"  P3 切线 : ret={tan_row['ret']:+.2%}, vol={tan_row['vol']:.2%}, "

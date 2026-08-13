@@ -157,8 +157,8 @@ def main(argv=None) -> int:
     rf = params["rf"]
 
     # 主口径组合（数值禁做空）
-    gmv = combo_row(portfolios, "GMV_数值(禁做空)")
-    tan = combo_row(portfolios, "切线_数值(禁做空)")
+    gmv = combo_row(portfolios, "GMV (no short)")
+    tan = combo_row(portfolios, "Tangency (no short)")
 
     # 基准 SPY 年化指标（同口径：mean*252 / std*√252）
     spy_ret = annualized_from_returns(returns_a["SPY"])

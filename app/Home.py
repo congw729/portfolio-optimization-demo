@@ -28,7 +28,7 @@ st.set_page_config(
 )
 
 st.title("📊 Markowitz Portfolio Optimization — Interactive Demo")
-st.caption("Portfolio Optimization Course Demo ｜ Data: ~5Y daily closes (yfinance, auto_adjust) ｜ Pipeline artifacts (read-only)")
+st.caption("Portfolio Optimization Course Demo | Data: ~5Y daily closes (yfinance, auto_adjust) | Pipeline artifacts (read-only)")
 
 st.markdown(
     """
@@ -114,6 +114,6 @@ with c2:
     )
 
 st.info(
-    "Project root: `{}` ｜ Run: `streamlit run app/Home.py`".format(ROOT),
+    "Project root: `{}` | Run: `streamlit run app/Home.py`".format(ROOT),
     icon="💡",
 )
