@@ -29,8 +29,8 @@ python scripts/features.py
 python scripts/report.py                    # 中文 report.md（默认）
 python scripts/report.py --lang en          # 英文 report.en.md（数据与中文一致）
 
-# 可选：Streamlit 交互页（不重算，读产物）
-streamlit run output/dashboard.py
+# 可选：交互式展示网页（多页 Streamlit + plotly，界面语言 English）
+streamlit run app/Home.py
 ```
 
 ## 文件说明
@@ -49,7 +49,8 @@ streamlit run output/dashboard.py
 | `drawdown_curve.png` | **图③ 回撤曲线**（切线组合 vs 基准 SPY：nav/dd/max_dd，S-1 口径） |
 | `correlation_heatmap.png` | **图④ 相关性热力图**（升级主图，方框标注负相关 GLD-DBC / 强正相关 SPY-EEM、SPY-TLT） |
 | `frontier_compare.png` | **图⑤ 双前沿对比图**（方案 A vs 基线个股，含各自 GMV 标注） |
-| `dashboard.py` | 可选 Streamlit 交互页：资产池选择/风险厌恶 γ slider/禁做空 checkbox，读产物不重算 |
+| `dashboard.py` | （已退役，由 app/ 多页应用取代）单页 Streamlit 精简版保留 |
+| `app/Home.py` | **P5b 交互式展示网页入口**（多页 Streamlit + plotly，界面英文）：`streamlit run app/Home.py`，侧边栏 6 页：Overview / Efficient Frontier（γ 交互）/ Weights / NAV & Drawdown / Correlation / Extensions，只读消费 data/ 与 output/ 产物 |
 | `report.md` | **P4b 最终演示报告**（reporter 角色产物）：组合夏普 vs SPY/60-40 基准、最大回撤、切线权重（含按类别汇总）、双前沿结论、风险归因 |
 
 > 说明：`data/features.json`（feature-engineer 产物：corr/类别汇总/60-40 基准参数）与 `output/report.md`（reporter 产物）均由 P4b 脚本生成，`scripts/demo_pipeline.sh` 可一键串起全链路。
