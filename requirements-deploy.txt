@@ -1,0 +1,11 @@
+# Minimal deployment manifest for Streamlit Community Cloud.
+# NOTE: the cloud only reads the root `requirements.txt`; this file holds the same
+# minimal list, kept as a clearly-named deployment manifest. Keep both in sync.
+# Full dev freeze (jupyter / yfinance / matplotlib / seaborn / akshare / sklearn)
+# lives in docs/requirements-full.txt.
+
+streamlit==1.61.1
+numpy==2.5.2
+pandas==3.0.5
+scipy==1.18.0
+plotly==6.9.0
