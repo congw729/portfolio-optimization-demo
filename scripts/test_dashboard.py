@@ -121,10 +121,44 @@ def test_pages_run() -> None:
             print(f"      页面元素: metric×{n_metric}, plotly_chart×{n_plotly}")
 
 
+def test_baseline_pool() -> None:
+    """切到 Baseline 池时页面不应崩溃（回归：KeyError: 'mc' / 60-40 错配）。"""
+    print("== D3 Baseline 池切换回归（AppTest）==")
+    try:
+        from streamlit.testing.v1 import AppTest
+    except ImportError as e:  # pragma: no cover
+        print(f"  [SKIP] streamlit.testing 不可用: {e}")
+        return
+
+    pages = [
+        APP / "pages" / "1_Overview.py",
+        APP / "pages" / "2_Efficient_Frontier.py",
+        APP / "pages" / "3_Weights.py",
+        APP / "pages" / "4_Nav_Drawdown.py",
+        APP / "pages" / "5_Correlation.py",
+    ]
+    for p in pages:
+        at = AppTest.from_file(str(p), default_timeout=30)
+        at.run()
+        try:
+            at.selectbox[0].select("Baseline (6 Stocks)")
+            at.run()
+        except Exception as e:
+            check(f"{p.name} Baseline 切换", False, str(e))
+            continue
+        if at.exception:
+            msg = str(at.exception[0]) if at.exception else "unknown"
+            check(f"{p.name} Baseline 无异常", False, msg)
+        else:
+            check(f"{p.name} Baseline 无异常", True)
+
+
 def main() -> int:
     test_data_snapshot()
     print()
     test_pages_run()
+    print()
+    test_baseline_pool()
     print()
     print(f"=== 全部通过：{len(PASSED)} 项断言 ===")
     return 0

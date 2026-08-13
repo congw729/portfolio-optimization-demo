@@ -59,7 +59,12 @@ def combo_metrics(combo: str) -> dict | None:
 
 
 def b6040_metrics() -> dict:
-    """60/40 benchmark: ret/vol/sharpe from features.json, max_dd constructed on the fly."""
+    """60/40 benchmark: only meaningful when the pool contains SPY & TLT (Portfolio A)."""
+    r_6040 = benchmark_6040_returns(d["returns"], params)
+    if r_6040 is None:
+        # Current pool has no SPY/TLT (e.g. Baseline stocks) → 60/40 is not applicable.
+        return {"ret": float("nan"), "vol": float("nan"),
+                "sharpe": float("nan"), "max_dd": float("nan")}
     if feats and "benchmark_6040" in feats:
         b = feats["benchmark_6040"]
         m = {"ret": float(b["ret"]), "vol": float(b["vol"]),
@@ -67,8 +72,7 @@ def b6040_metrics() -> dict:
     else:
         m = {"ret": float("nan"), "vol": float("nan"),
              "sharpe": float("nan"), "max_dd": float("nan")}
-    r_6040 = benchmark_6040_returns(d["returns"], params)
-    if r_6040 is not None and len(r_6040) > 0:
+    if len(r_6040) > 0:
         m["max_dd"] = float(compute_drawdown(r_6040).min())
     return m
 

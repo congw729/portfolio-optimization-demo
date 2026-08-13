@@ -68,7 +68,7 @@ def load_pool(pool_key: str) -> dict:
     returns = pd.read_csv(p["returns"], index_col=0, parse_dates=True)
     returns = returns[tickers]
     portfolios = pd.read_csv(p["portfolios"]) if p["portfolios"].exists() else pd.DataFrame()
-    mc = pd.read_csv(p["mc"]) if p["mc"].exists() else pd.DataFrame()
+    mc = pd.read_csv(p["mc"]) if p.get("mc") and p["mc"].exists() else pd.DataFrame()
     return {
         "tickers": tickers, "mu": mu, "sigma": sigma, "rf": rf,
         "params": params, "frontier": frontier,

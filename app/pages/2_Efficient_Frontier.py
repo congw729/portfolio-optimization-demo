@@ -33,10 +33,10 @@ c_ctl = st.columns([2, 2, 1])
 with c_ctl[0]:
     pool_key = st.selectbox("Asset Pool", list(POOLS.keys()), key="ef_pool")
 with c_ctl[1]:
-    gamma = st.slider("Risk-Aversion γ", 0.5, 20.0, 5.0, 0.5,
+    gamma = st.slider("Risk-Aversion γ", 0.5, 20.0, 5.0, 0.5, key="gamma",
                       help="Higher γ → more conservative (portfolio moves toward lower volatility)")
 with c_ctl[2]:
-    no_short = st.checkbox("No Short Selling (w≥0)", value=True)
+    no_short = st.checkbox("No Short Selling (w≥0)", value=True, key="no_short")
 
 d = load_pool(pool_key)
 tickers, mu, sigma, rf = d["tickers"], d["mu"], d["sigma"], d["rf"]

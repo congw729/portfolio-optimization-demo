@@ -20,6 +20,7 @@ if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 from utils import (  # noqa: E402
+    CLASS_COLORS,
     OUT,
     POOLS,
     load_features,
@@ -134,7 +135,7 @@ else:
     rc_tickers = [c[3:] for c in rc_cols]  # rc_SPY → SPY
     fig = go.Figure(go.Bar(
         x=rc_tickers, y=rc_vals,
-        marker=dict(color=[asset_class.get(t, "#999999") for t in rc_tickers]),
+        marker=dict(color=[CLASS_COLORS.get(asset_class.get(t, "equity-us"), "#999999") for t in rc_tickers]),
         text=[f"{v:.2%}" for v in rc_vals], textposition="outside",
         hovertemplate="%{x}: RC=%{y:.2%}<extra></extra>",
     ))

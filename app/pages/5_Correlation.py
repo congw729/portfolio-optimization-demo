@@ -5,7 +5,7 @@ Data: data/features.json → corr (Portfolio A pre-computed); baseline derives c
       params_stocks.json sigma on the fly (lightweight); when features.json is missing,
       corr is computed from returns on the fly.
 Teaching point: Portfolio A contains a negative correlation (EEM-DBC = -0.12),
-                SPY-TLT measured +0.68 (stocks and bonds moved together over the last 5Y).
+                SPY-IWM measured +0.85 (large- and small-cap US equities moved together over the last 5Y).
 """
 
 import sys
@@ -47,7 +47,8 @@ if feats and "corr" in feats:
 
 if corr_df is None:
     # Derive corr from sigma: ρ_ij = Σ_ij / sqrt(Σ_ii·Σ_jj)
-    s = np.array([[params["sigma"][a][b] for b in tickers] for a in tickers])
+    # sigma is {ticker: row-vector} → stack rows into an n×n matrix.
+    s = np.array([params["sigma"][a] for a in tickers])
     dg = np.sqrt(np.diag(s))
     corr = s / np.outer(dg, dg)
     corr_df = pd.DataFrame(corr, index=tickers, columns=tickers)
@@ -62,7 +63,7 @@ for i in range(n):
 
 # Strong-positive pairs (teaching annotation)
 pos_pairs = []
-for a, b in (("SPY", "EEM"), ("SPY", "TLT")):
+for a, b in (("SPY", "IWM"),):
     if a in tickers and b in tickers:
         pos_pairs.append((a, b, corr_df.loc[a, b]))
 
@@ -108,10 +109,10 @@ neg_txt = ", ".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in neg_pairs) or "none"
 pos_txt = ", ".join(f"**{a}-{b} = {v:.2f}**" for a, b, v in pos_pairs) or "none"
 st.markdown(
     f"- **Negative pairs (red box)**: {neg_txt} — negative correlation = extra diversification (hedging across assets)\n"
-    f"- **Strong-positive pairs (blue box)**: {pos_txt} — stocks and bonds moved together over the last 5Y; positive correlation weakens diversification"
+    f"- **Strong-positive pairs (blue box)**: {pos_txt} — equities moved together over the last 5Y; positive correlation weakens diversification"
 )
 if pool_key == "Portfolio A (Cross-Asset ETFs)":
     st.caption("Convention: measured correlation matrix from data/features.json (P4b feature-engineer artifact). "
-               "EEM-DBC negative + SPY-TLT +0.68 are the v1.2 measured values; the single most informative chart.")
+               "EEM-DBC negative + SPY-IWM +0.85 are the v1.2 measured values; the single most informative chart.")
 else:
     st.caption("Convention: derived on the fly from data/params_stocks.json covariance (ρ_ij = Σ_ij/√(Σ_ii·Σ_jj)).")
